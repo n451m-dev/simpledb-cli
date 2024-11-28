@@ -1,0 +1,22 @@
+{
+  "name": "simpledb-cli",
+  "version": "1.0.0",
+  "description": "It's a cli app to connect to simpledb.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "simpledb"
+  ],
+  "author": "nasim",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.2",
+    "@grpc/proto-loader": "^0.7.13",
+    "commander": "^12.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
