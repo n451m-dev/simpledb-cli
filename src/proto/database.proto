@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package database;
 
+// Define the DatabaseService with all RPC methods.
 service DatabaseService {
   rpc CreateCollection(CreateCollectionRequest) returns (DatabaseResponse);
   rpc FindCollection(FindCollectionRequest) returns (CollectionResponse);
@@ -9,8 +10,10 @@ service DatabaseService {
   rpc ListCollections(EmptyRequest) returns (ListCollectionsResponse);
   rpc CreateOne(CreateOneRequest) returns (DatabaseResponse);
   rpc FindOne(FindOneRequest) returns (DocumentResponse);
+  rpc Connect(EmptyRequest) returns (ConnectResponse);
 }
 
+// Request and response message definitions.
 message CreateCollectionRequest {
   string collectionName = 1;
 }
@@ -50,4 +53,8 @@ message ListCollectionsResponse {
 
 message DocumentResponse {
   map<string, string> document = 1;
+}
+
+message ConnectResponse {
+  string message = 1;
 }

@@ -3,7 +3,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from "path";
 // Load proto file
-const PROTO_PATH = path.join(__dirname, "../../proto", "database.proto");
+const PROTO_PATH = path.join(__dirname, "../proto/database.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const proto = grpc.loadPackageDefinition(packageDefinition) as any; // Cast to any to avoid type issues
 
