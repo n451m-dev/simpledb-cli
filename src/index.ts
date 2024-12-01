@@ -1,35 +1,58 @@
-import * as readline from 'readline';
-import { Command } from 'commander';
-import { connectCommand } from './commands/connect';
-import { createCollectionCommand } from './commands/collection';
-import { findCollectionCommand } from './commands/collection';
-import { deleteCollectionCommand } from './commands/collection';
+import readline from 'readline';
 
-const program = new Command();
-
-program
-    .name('simpledb-cli')
-    .description('CLI to interact with the SimpleDB server')
-    .version('1.0.0');
-
-connectCommand(program);
-createCollectionCommand(program);
-findCollectionCommand(program);
-deleteCollectionCommand(program);
-
-// Add interactive mode using readline
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
+    prompt: 'calculator> ',
 });
 
-rl.on('line', (input) => {
-    if (input === 'exit') {
-        rl.close();
-        process.exit(0);
+const performOperation = (input: string): string => {
+    const [command, ...args] = input.split(' ');
+
+    try {
+        switch (command) {
+            case 'add': {
+                const [num1, num2] = args.map(Number);
+                return `Result: ${num1 + num2}`;
+            }
+            case 'subtract': {
+                const [num1, num2] = args.map(Number);
+                return `Result: ${num1 - num2}`;
+            }
+            case 'multiply': {
+                const [num1, num2] = args.map(Number);
+                return `Result: ${num1 * num2}`;
+            }
+            case 'divide': {
+                const [num1, num2] = args.map(Number);
+                if (num2 === 0) {
+                    return 'Error: Division by zero is not allowed.';
+                }
+                return `Result: ${num1 / num2}`;
+            }
+            case 'exit':
+                rl.close();
+                return 'Goodbye!';
+            default:
+                return `Unknown command: ${command}. Available commands are: add, subtract, multiply, divide, exit.`;
+        }
+    } catch (err) {
+        return `Error processing command: ${err.message}`;
     }
-    // You can parse commands here and execute
-    program.parse([process.argv[0], process.argv[1], input]);
+};
+
+// Start the REPL
+rl.prompt();
+rl.on('line', (line: string) => {
+    const input = line.trim();
+    if (input) {
+        const output = performOperation(input);
+        console.log(output);
+    }
+    rl.prompt();
 });
 
-program.parse(process.argv);
+rl.on('close', () => {
+    console.log('Calculator exited.');
+    process.exit(0);
+});
