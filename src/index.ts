@@ -1,58 +1,32 @@
 import readline from 'readline';
+import { performOperation } from './perform-operation';
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: 'calculator> ',
+    prompt: 'simplesh> ',
+    terminal: false // Disables input echoing
 });
 
-const performOperation = (input: string): string => {
-    const [command, ...args] = input.split(' ');
+// Manually write the prompt
+process.stdout.write('simplesh> ');
 
-    try {
-        switch (command) {
-            case 'add': {
-                const [num1, num2] = args.map(Number);
-                return `Result: ${num1 + num2}`;
-            }
-            case 'subtract': {
-                const [num1, num2] = args.map(Number);
-                return `Result: ${num1 - num2}`;
-            }
-            case 'multiply': {
-                const [num1, num2] = args.map(Number);
-                return `Result: ${num1 * num2}`;
-            }
-            case 'divide': {
-                const [num1, num2] = args.map(Number);
-                if (num2 === 0) {
-                    return 'Error: Division by zero is not allowed.';
-                }
-                return `Result: ${num1 / num2}`;
-            }
-            case 'exit':
-                rl.close();
-                return 'Goodbye!';
-            default:
-                return `Unknown command: ${command}. Available commands are: add, subtract, multiply, divide, exit.`;
-        }
-    } catch (err) {
-        return `Error processing command: ${err.message}`;
-    }
-};
-
-// Start the REPL
-rl.prompt();
-rl.on('line', (line: string) => {
+// Use an async wrapper to handle the line event
+rl.on('line', async (line: string) => {
     const input = line.trim();
     if (input) {
-        const output = performOperation(input);
-        console.log(output);
+        try {
+            const output = await performOperation(input);
+            console.log(output);
+        } catch (error) {
+            console.error(`Error: ${error.message}`);
+        }
     }
-    rl.prompt();
+    // Write the prompt manually
+    process.stdout.write('simplesh> ');
 });
 
 rl.on('close', () => {
-    console.log('Calculator exited.');
+    console.log('simplesh exited.');
     process.exit(0);
 });
