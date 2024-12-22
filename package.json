@@ -1,14 +1,14 @@
 {
-  "name": "simpledb-cli",
+  "name": "simpledb-client",
   "version": "1.0.0",
-  "description": "A CLI app to connect to SimpleDB.",
+  "description": "A packagae app to connect to SimpleDB.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js"
   },
   "keywords": [
-    "cli",
+    "client",
     "simpledb",
     "database"
   ],
